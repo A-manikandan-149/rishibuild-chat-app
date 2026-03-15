@@ -30,6 +30,7 @@ wss.on("connection", (ws) => {
   ws.on("message", (message) => {
 
     console.log("Message:", message.toString());
+redisClient.set("lastMessage", message.toString());
 
     // Broadcast message to all clients
     wss.clients.forEach((client) => {
