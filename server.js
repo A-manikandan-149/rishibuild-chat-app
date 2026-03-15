@@ -76,29 +76,24 @@ app.use(express.static(__dirname));
 
 // WebSocket connection
 wss.on("connection", (ws) => {
+  console.log("User connected");
+ws.on("message", (message) => {
+  console.log("Message:", message.toString());
 
-    console.log("User connected");
-
-    ws.on("message", (message) => {
-
-        console.log("Message:", message.toString());
-
-        // broadcast message to all clients
-        wss.clients.forEach(client => {
-            if (client.readyState === WebSocket.OPEN) {
-                client.send(message.toString());
-            }
-        });
-
-    });
-
-    ws.on("close", () => {
-        console.log("User disconnected");
-    });
-
+  // broadcast message to all clients
+  wss.clients.forEach((client) => {
+    if (client.readyState === WebSocket.OPEN) {
+      client.send(message.toString());
+    }
+  });
+});
+ 
+  ws.on("close", () => {
+    console.log("User disconnected");
+  });
 });
 
 // Start server
 server.listen(3000, () => {
-    console.log("🚀 Server running on port 3000");
+  console.log("🚀 Server running on port 3000");
 });
