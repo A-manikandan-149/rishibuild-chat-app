@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>RishiBuild Scalable Chat Application</title>
+
+<style>
+
+body{
+font-family: Arial, sans-serif;
+background:#1e1e1e;
+color:white;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+margin:0;
+}
+
+.chat-box{
+width:400px;
+background:#2c2c2c;
+padding:20px;
+border-radius:10px;
+box-shadow:0 0 10px rgba(0,0,0,0.5);
+}
+
+h2{
+text-align:center;
+margin-bottom:15px;
+}
+
+#messages{
+height:300px;
+overflow-y:auto;
+background:#111;
+padding:10px;
+margin-bottom:10px;
+border-radius:5px;
+}
+
+.message{
+padding:5px;
+margin:4px 0;
+background:#444;
+border-radius:4px;
+}
+
+.input-area{
+display:flex;
+}
+
+input{
+flex:1;
+padding:10px;
+border:none;
+border-radius:4px;
+outline:none;
+}
+
+button{
+margin-left:5px;
+padding:10px;
+background:#4CAF50;
+border:none;
+border-radius:4px;
+color:white;
+cursor:pointer;
+}
+
+button:hover{
+background:#45a049;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="chat-box">
+
+<h2>RishiBuild Scalable Chat Application</h2>
+
+<div id="messages"></div>
+
+<div class="input-area">
+<input id="msg" placeholder="Type message..." />
+<button onclick="sendMessage()">Send</button>
+</div>
+
+</div>
+
+<script>
+
+const socket = new WebSocket("ws://" + location.host);
+
+socket.onmessage = function(event){
+    const messages = document.getElementById("messages");
+    const msg = document.createElement("div");
+    msg.className = "message";
+    msg.textContent = event.data;
+    messages.appendChild(msg);
+    messages.scrollTop = messages.scrollHeight;
+};
+
+function sendMessage(){
+    const input = document.getElementById("msg");
+    if(input.value.trim() !== ""){
+        socket.send(input.value);
+        input.value = "";
+    }
+}
+
+</script>
+
+</body>
+
+</html>
