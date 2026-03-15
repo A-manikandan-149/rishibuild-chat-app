@@ -26,6 +26,9 @@ app.use(express.static(__dirname));
 wss.on("connection", (ws) => {
 
   console.log("User connected");
+redisClient.get("lastMessage").then((msg) => {
+  if(msg) ws.send("Last message: " + msg);
+});
 
   ws.on("message", (message) => {
 
