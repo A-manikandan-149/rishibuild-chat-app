@@ -85,13 +85,8 @@ background:#45a049;
 <div id="messages"></div>
 
 <div class="input-area">
-
-<input id="username" placeholder="Your name">
-
-<input id="msg" placeholder="Type message...">
-
-<button type="button" onclick="sendMessage()">Send</button>
-
+<input id="msg" placeholder="Type message..." />
+<button onclick="sendMessage()">Send</button>
 </div>
 
 </div>
@@ -110,18 +105,11 @@ socket.onmessage = function(event){
 };
 
 function sendMessage(){
-
-    const username = document.getElementById("username").value;
     const input = document.getElementById("msg");
-
-    if(input.value.trim() === "") return;
-
-    socket.send(username + ": " + input.value);
-
-    input.value = "";
-
-}
-
+    if(input.value.trim() !== ""){
+        socket.send(input.value);
+        input.value = "";
+    }
 }
 
 </script>
