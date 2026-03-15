@@ -9,7 +9,10 @@ const wss = new WebSocket.Server({ server });
 
 // Redis connection (for AWS ElastiCache later)
 const redisClient = redis.createClient({
-    url: process.env.REDIS_URL || "redis://localhost:6379"
+  socket: {
+    host: "master.rishibuild-redis.3t6jdi.eun1.cache.amazonaws.com",
+    port: 6379
+  }
 });
 
 redisClient.connect()
